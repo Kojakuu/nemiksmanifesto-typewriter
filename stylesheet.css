@@ -32,20 +32,8 @@ body {
     color: gainsboro;
 }
 
-a:hover {
-    color: rgb(145, 240, 249);
-    font-weight: 600;
-}
-
-a:link {
-    color: rgb(145, 240, 249);
-    text-decoration: none;
-}
-
-a:visited {
-    color: rgb(145, 240, 249);
-    text-decoration: none;
-}
+a:hover { color: rgb(145, 240, 249); font-weight: 600; }
+a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
 
 .TableThinWindow {
     border-spacing: 0px;
@@ -55,20 +43,17 @@ a:visited {
     width: 850px;
 }
 
-.TableThinWindowCell {
-    height: 60px;
-}
-
-.TableThinWindowCellSeparator {
-    height: 10px;
-}
+.TableThinWindowCell { height: 60px; }
+.TableThinWindowCellSeparator { height: 10px; }
 
 .TableThinWindowCellDown {
     background: black;
     height: 60px;
 }
 
-/* was 700px */
+/* =================== BOTTOM WINDOW SIZING =================== */
+/* We’re keeping the render area tall (added lines) and we remove
+   extra bottom padding so it doesn’t create a larger gap. */
 .TableManifestoText {
     border-spacing: 0px;
     border-collapse: collapse;
@@ -76,7 +61,7 @@ a:visited {
     margin-left: auto;
     margin-right: auto;
     width: 850px;
-    height: 910px;   /* +210px = +3 lines */
+    height: 910px;   /* +210px ≈ +3 lines vs original 700px */
 }
 
 .TableManifestoMarqueeCell {
@@ -84,25 +69,26 @@ a:visited {
     height: 100px;
     font-size: 50px;
     width: 588px;
-    line-height: 70px;
+    line-height: 70px; /* 1 line ≈ 70px */
 }
 
-/* OVERLAY WRAP + CLICK TARGET */
-.PlayWrap { position: relative; }
-#PlayPauseOverlay {
+/* IMPORTANT: single, authoritative rule — no extra bottom padding */
+.ManifestoMarqueeText {
+    height: 910px;    /* matches table for a tight fit */
+    padding-bottom: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Keeps the overlay clickable area aligned and full-window if you use it */
+#TapOverlay {
     position: absolute;
     inset: 0;
-    background: transparent;
-    border: 0;
     cursor: pointer;
-    z-index: 3;
+    /* no background so it stays invisible */
 }
 
-.ManifestoMarqueeText {
-    height: 910px;     /* +210px = +3 lines */
-    padding-bottom: 0; /* ensure the extra height actually shows text */
-    box-sizing: border-box;
-}
+/* ============================================================ */
 
 .TableManifestoTextCell {
     padding-top: 30px;
@@ -110,13 +96,8 @@ a:visited {
     width: 121px;
 }
 
-.TableZoomCell {
-    vertical-align: top;
-}
-
-.TableManifestoEmptyTextCell {
-    width: 10px;
-}
+.TableZoomCell { vertical-align: top; }
+.TableManifestoEmptyTextCell { width: 10px; }
 
 .TableSymbolA {
     padding: 20px;
@@ -138,30 +119,30 @@ a:visited {
     border-radius: 10px;
 }
 
-.TableSymbolCell {
-    background: black;
-}
+.TableSymbolCell { background: black; }
 
 .DivManifestoOffset {
     margin-left: auto;
     margin-right: auto;
     width: 850px;
-    height: 0x;
+    height: 0px;
 }
 
 .DivSetupSeparator {
     margin-left: auto;
     margin-right: auto;
     width: 850px;
-    height: 50px;
+    height: 50px; /* keep this modest; larger values increase the gap */
 }
 
-/* ↑↑ increased from 30px to 100px to add ~one line of gap */
+/* If the gap still feels too big/small:
+   - Decrease height here to shrink the gap (e.g., 30px)
+   - Increase to grow the gap (e.g., 70px) */
 .DivManifestoSeparator {
     margin-left: auto;
     margin-right: auto;
     width: 850px;
-    height: 100px;   /* was 30px */
+    height: 60px;  /* one place to control the visible gap cleanly */
 }
 
 .TableSetup {
@@ -172,28 +153,19 @@ a:visited {
     width: 850px;
 }
 
-input {
+input, select, option {
     font-size: 40px;
     font-family: Aurebesh;
     width: 250px;
     background-color: whitesmoke;
 }
 
-select,
-option {
-    font-size: 40px;
-    font-family: Aurebesh;
-    width: 250px;
-    background-color: whitesmoke;
-}
-
-#bars {
+#bars, #barsDown {
     position: relative;
     bottom: -34px;
 }
 
-.bar {
-    background: rgb(145, 240, 249);
+.bar, .barDown {
     bottom: 0px;
     height: 0px;
     position: absolute;
@@ -201,25 +173,15 @@ option {
     animation: sound 500ms infinite alternate;
 }
 
-#barsDown {
-    position: relative;
-    bottom: -34px;
-}
-
-.barDown {
-    background: black;
-    bottom: 0px;
-    height: 0px;
-    position: absolute;
-    width: 15px;
-    animation: sound 500ms infinite alternate;
-}
+.bar { background: rgb(145, 240, 249); }
+.barDown { background: black; }
 
 @keyframes sound {
     0% { height: 0px; }
     100% { height: 65px; }
 }
 
+/* barsDown positions/durations */
 .barDown:nth-child(1) { left: 0px; animation-duration: 250ms; }
 .barDown:nth-child(2) { left: 19px; animation-duration: 330ms; }
 .barDown:nth-child(3) { left: 38px; animation-duration: 121ms; }
@@ -266,6 +228,7 @@ option {
 .barDown:nth-child(44){ left: 817px; animation-duration: 217ms; }
 .barDown:nth-child(45){ left: 836px; animation-duration: 260ms; }
 
+/* bars (cyan) positions/durations */
 .bar:nth-child(1) { left: 0px;   animation-duration: 330ms; }
 .bar:nth-child(2) { left: 19px;  animation-duration: 240ms; }
 .bar:nth-child(3) { left: 38px;  animation-duration: 231ms; }
@@ -322,13 +285,14 @@ option {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Typing window breathing room */
-.ManifestoMarqueeText { padding-bottom: 60px; box-sizing: border-box; }
+/* Type lines */
+.twline {
+  display: block;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
 
-/* Typewriter lines */
-.twline { display:block; overflow-wrap:anywhere; word-break:normal; }
-
-/* Tighten only problem ranges to avoid overrun */
+/* The line-range tightening you added previously */
 .line-14, .line-15, .line-16, .line-17, .line-18, .line-19, .line-20,
 .line-25, .line-26, .line-27, .line-28, .line-29, .line-30, .line-31,
 .line-36, .line-37, .line-38, .line-39, .line-40, .line-41, .line-42,
