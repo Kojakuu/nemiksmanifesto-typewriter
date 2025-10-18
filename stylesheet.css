@@ -32,19 +32,47 @@ body {
     color: gainsboro;
 }
 
-a:hover { color: rgb(145, 240, 249); font-weight: 600; }
-a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
+a:hover {
+    color: rgb(145, 240, 249);
+    font-weight: 600;
+}
 
-.TableThinWindow { border-spacing: 0; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 850px; }
-.TableThinWindowCell { height: 60px; }
-.TableThinWindowCellSeparator { height: 10px; }
-.TableThinWindowCellDown { background: black; height: 60px; }
+a:link {
+    color: rgb(145, 240, 249);
+    text-decoration: none;
+}
+
+a:visited {
+    color: rgb(145, 240, 249);
+    text-decoration: none;
+}
+
+.TableThinWindow {
+    border-spacing: 0px;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    width: 850px;
+}
+
+.TableThinWindowCell {
+    height: 60px;
+}
+
+.TableThinWindowCellSeparator {
+    height: 10px;
+}
+
+.TableThinWindowCellDown {
+    background: black;
+    height: 60px;
+}
 
 /* was 700px */
 .TableManifestoText {
-    border-spacing: 0;
+    border-spacing: 0px;
     border-collapse: collapse;
-    border: 0;
+    border: 0px;
     margin-left: auto;
     margin-right: auto;
     width: 850px;
@@ -59,29 +87,26 @@ a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
     line-height: 70px;
 }
 
-/* OVERLAY WRAP + CLICK TARGET */
-.PlayWrap { position: relative; }
-#PlayPauseOverlay {
-    position: absolute;
-    inset: 0;               /* full coverage */
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    z-index: 3;
-    /* optional: show a very faint hit-area when debugging */
-    /* outline: 1px dashed rgba(145,240,249,0.15); */
-}
-
 /* was height: 700px; plus padding-bottom: 60px later */
 .ManifestoMarqueeText {
     height: 910px;     /* +210px = +3 lines */
-    padding-bottom: 0; /* ensure the extra height actually shows text */
+    padding-bottom: 60px; /* breathing room; does not move "Setup" */
     box-sizing: border-box;
 }
 
-.TableManifestoTextCell { padding-top: 30px; vertical-align: top; width: 121px; }
-.TableZoomCell { vertical-align: top; }
-.TableManifestoEmptyTextCell { width: 10px; }
+.TableManifestoTextCell {
+    padding-top: 30px;
+    vertical-align: top;
+    width: 121px;
+}
+
+.TableZoomCell {
+    vertical-align: top;
+}
+
+.TableManifestoEmptyTextCell {
+    width: 10px;
+}
 
 .TableSymbolA {
     padding: 20px;
@@ -90,34 +115,102 @@ a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
     background: rgb(145, 240, 249);
     border-radius: 10px;
 }
+
 .TableSymbolB {
-    border-spacing: 0;
-    padding-top: 20px; padding-left: 20px; padding-bottom: 0; padding-right: 0;
-    width: 59px; height: 199px;
+    border-spacing: 0px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    width: 59px;
+    height: 199px;
     background: rgb(145, 240, 249);
     border-radius: 10px;
 }
-.TableSymbolCell { background: black; }
 
-.DivManifestoOffset { margin-left: auto; margin-right: auto; width: 850px; height: 0x; }
-.DivSetupSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 50px; }
-.DivManifestoSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 30px; }
+.TableSymbolCell {
+    background: black;
+}
 
-.TableSetup { border-spacing: 0; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 850px; }
+.DivManifestoOffset {
+    margin-left: auto;
+    margin-right: auto;
+    width: 850px;
+    height: 0x;
+}
 
-input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; background-color: whitesmoke; }
+/* ↑ Increase the gap between the top animation and the render window by ~1 line (≈70px)
+   This pushes everything below down uniformly. */
+.DivManifestoSeparator {
+    margin-left: auto;
+    margin-right: auto;
+    width: 850px;
+    height: 100px;   /* was 30px — now bigger gap above the trapezoid */
+}
 
-#bars, #barsDown { position: relative; bottom: -34px; }
-.bar, .barDown {
-    bottom: 0; height: 0; position: absolute; width: 15px;
+.DivSetupSeparator {
+    margin-left: auto;
+    margin-right: auto;
+    width: 850px;
+    height: 50px;
+}
+
+.TableSetup {
+    border-spacing: 0px;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    width: 850px;
+}
+
+input {
+    font-size: 40px;
+    font-family: Aurebesh;
+    width: 250px;
+    background-color: whitesmoke;
+}
+
+select,
+option {
+    font-size: 40px;
+    font-family: Aurebesh;
+    width: 250px;
+    background-color: whitesmoke;
+}
+
+#bars {
+    position: relative;
+    bottom: -34px;
+}
+
+.bar {
+    background: rgb(145, 240, 249);
+    bottom: 0px;
+    height: 0px;
+    position: absolute;
+    width: 15px;
     animation: sound 500ms infinite alternate;
 }
-.bar { background: rgb(145, 240, 249); }
-.barDown { background: black; }
 
-@keyframes sound { 0% { height: 0; } 100% { height: 65px; } }
+#barsDown {
+    position: relative;
+    bottom: -34px;
+}
 
-/* barDown placements */
+.barDown {
+    background: black;
+    bottom: 0px;
+    height: 0px;
+    position: absolute;
+    width: 15px;
+    animation: sound 500ms infinite alternate;
+}
+
+@keyframes sound {
+    0% { height: 0px; }
+    100% { height: 65px; }
+}
+
 .barDown:nth-child(1) { left: 0px; animation-duration: 250ms; }
 .barDown:nth-child(2) { left: 19px; animation-duration: 330ms; }
 .barDown:nth-child(3) { left: 38px; animation-duration: 121ms; }
@@ -164,7 +257,6 @@ input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; ba
 .barDown:nth-child(44){ left: 817px; animation-duration: 217ms; }
 .barDown:nth-child(45){ left: 836px; animation-duration: 260ms; }
 
-/* bar placements */
 .bar:nth-child(1) { left: 0px;   animation-duration: 330ms; }
 .bar:nth-child(2) { left: 19px;  animation-duration: 240ms; }
 .bar:nth-child(3) { left: 38px;  animation-duration: 231ms; }
@@ -221,22 +313,9 @@ input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; ba
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Typing window breathing room */
-.ManifestoMarqueeText { padding-bottom: 60px; box-sizing: border-box; }
-
-/* Typewriter lines */
-.twline { display:block; overflow-wrap:anywhere; word-break:normal; }
-
-/* Tighten only problem ranges to avoid overrun */
-.line-14, .line-15, .line-16, .line-17, .line-18, .line-19, .line-20,
-.line-25, .line-26, .line-27, .line-28, .line-29, .line-30, .line-31,
-.line-36, .line-37, .line-38, .line-39, .line-40, .line-41, .line-42,
-.line-43, .line-44, .line-45, .line-46, .line-47, .line-48, .line-49,
-.line-50, .line-51, .line-52, .line-53, .line-54, .line-55, .line-56,
-.line-57, .line-58, .line-59, .line-60, .line-61, .line-62, .line-63,
-.line-64, .line-65, .line-66, .line-67 {
-  font-size: 0.96em;
-  letter-spacing: 0.01em;
-  word-spacing: 0.04em;
-  line-height: 1.36;
+/* Allow earlier breaks for long Aurebesh runs (no hyphenation). */
+.twline {
+  display: block;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }

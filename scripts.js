@@ -33,19 +33,9 @@ function setup() {
     createBars('bars', 'bar');
     createBars('barsDown', 'barDown');
     setupTableSymbol('black');
-
-    // Init typewriter
-    document.getElementById('ManifestoMarqueeText').style.color = 'black';
-    twInit();
-
-    // Audio language + load
+    document.getElementById('ManifestoMarqueeText').style.color = 'black'; twInit();
     getAudioLanguage();
     setupAudioLanguage();
-
-    // Wire overlay control
-    const overlay = document.getElementById('PlayPauseOverlay');
-    if (overlay) overlay.addEventListener('click', overlayToggle, {passive:true});
-
     pause();
 }
 
@@ -59,11 +49,33 @@ function createBars(divTagName, innerDivTagName) {
 }
 
 function setupAudioLanguage() {
-    let url = "http://www.theforce.com.ar/Scripts/nemiksmanifesto/" + getAudioLanguageID();
-    nemiksManifestoAudioSource = document.getElementById('NemiksManifestoAudioSource');
-    nemiksManifestoAudioSource.src = url;
-    nemiksManifestoAudio = document.getElementById('NemiksManifestoAudio');
-    nemiksManifestoAudio.load();
+    // FIX: use HTTPS + lowercase path for GitHub Pages; add CORS + local fallback
+    const audio = document.getElementById('NemiksManifestoAudio');
+    const src   = document.getElementById('NemiksManifestoAudioSource');
+    if (!audio || !src) return;
+
+    // Ensure cross-origin is permitted (no HTML change needed)
+    audio.crossOrigin = 'anonymous';
+
+    const cdnBase = "https://www.theforce.com.ar/scripts/nemiksmanifesto/";
+    const remoteUrl = cdnBase + getAudioLanguageID();
+
+    // try remote first
+    src.src = remoteUrl;
+    audio.load();
+
+    // fallback to local files (english.mp3 / spanish.mp3) if remote fails
+    audio.onerror = () => {
+        const map = {
+            "nemiksmanifesto.english.mp3": "english.mp3",
+            "nemiksmanifesto.spanish.mp3": "spanish.mp3",
+        };
+        const id = getAudioLanguageID();
+        if (map[id]) {
+            src.src = map[id];
+            audio.load();
+        }
+    };
 }
 
 function getAudioLanguageID() {
@@ -93,42 +105,6 @@ function setupDivManifestoOffset() {
 
 function startStop() { if (!_running) { start(); } else { pause(); } }
 
-// Overlay-driven start/stop + restart-when-ended
-function overlayToggle(){
-    const a = document.getElementById('NemiksManifestoAudio');
-    const isEnded = a && a.duration && isFinite(a.duration) && (a.currentTime >= a.duration - 0.05);
-    if (isEnded) {
-        restartFromBeginning();
-        return;
-    }
-    // If currently playing, pause; otherwise start.
-    if (_running) pause(); else start();
-}
-
-function restartFromBeginning(){
-    // Stop everything and reset state
-    twStop();
-    stopScroll();
-    const a = document.getElementById('NemiksManifestoAudio');
-    if (a) { a.pause(); a.currentTime = 0; }
-    _initialized = true;    // so we get the slight delayed animation kick like first run
-    _running = false;
-
-    // Reinit typewriter + scroll position
-    twInit();
-    const marquee = document.getElementById('ManifestoMarqueeText');
-    if (marquee) { marquee.scrollTop = 0; }
-
-    // Start fresh
-    start();
-}
-
-function onAudioEnded(){
-    // Make sure UI returns to paused visuals when audio finishes naturally
-    stopAnimation();
-}
-
-/* ===== START / STOP VISUALS ===== */
 function start() {
     let color = 'rgb(145, 240, 249)';
     let manifestoMarqueeText = document.getElementById('ManifestoMarqueeText');
@@ -162,7 +138,6 @@ function stopAnimation() {
 
 function reset() { if (!_running) window.location.reload(); }
 
-/* ===== ZOOM, COOKIES, SETUP (unchanged) ===== */
 function setupZoom() {
     _zoomValue = getZoom();
     if (_zoomValue > zoomMaxValue) _zoomValue = zoomMaxValue;
@@ -207,7 +182,7 @@ function setCookie(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-/* ===================== Typewriter + Dynamic Scroll ===================== */
+/* ===================== Typewriter w/ dynamic first-half scroll ===================== */
 
 /* Your tuned typing pace */
 const TW_BASE_SPEED = 73.7;   // ms / char
@@ -234,6 +209,7 @@ let scrollTimer = null;
 function getPlaybackProgress() {
   const a = document.getElementById('NemiksManifestoAudio');
   if (!a || !a.duration || !isFinite(a.duration) || a.duration <= 0) {
+    // fallback to line-based progress if audio not ready
     const total = Math.max(1, twParas.length);
     return Math.min(1, twLineIdx / total);
   }
@@ -242,6 +218,7 @@ function getPlaybackProgress() {
 
 function desiredScrollStep(){
   const p = getPlaybackProgress();
+  // “first half” is a bit generous (55%) to keep you ahead early
   return (p < 0.55) ? SCROLL_STEP_FAST : SCROLL_STEP_SLOW;
 }
 
@@ -316,7 +293,7 @@ function twOverflowPixels(){
 
 /* --- main tick --- */
 function twTick(){
-  // keep max lines synced
+  // keep max visible lines synced
   const m = document.getElementById('ManifestoMarqueeText');
   const lh = parseFloat(getComputedStyle(m).lineHeight || '70');
   const newMax = Math.max(1, Math.floor((m.clientHeight || 700) / lh)) + 2;
@@ -324,7 +301,8 @@ function twTick(){
 
   const currentLineNo = twLineIdx + 1;
 
-  // First half: no back-pressure; second half: gentle back-pressure
+  // In FIRST HALF: do not apply back-pressure at all (go fast)
+  // In SECOND HALF: apply gentle back-pressure to avoid overruns
   const inFirstHalf = (getPlaybackProgress() < 0.55);
   if (!inFirstHalf && !SKIP_BACKPRESSURE_LINES.has(currentLineNo)) {
     if (twVisibleLines.length >= twMaxLines) {
