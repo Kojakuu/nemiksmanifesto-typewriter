@@ -1,0 +1,242 @@
+/*
+Karis Nemik's Manifesto Firware
+Created by Diego J. Arevalo.
+2023 v 1.1
+*/
+
+@font-face {
+    font-family: 'Aurebesh';
+    src: url('AurebeshAF.woff2') format('woff2');
+}
+
+body {
+    color: rgb(145, 240, 249);
+    font-family: Aurebesh;
+    font-size: 50px;
+    margin: 0px;
+    background-color: black;
+}
+
+.SpanSetupLabel {
+    display: flex;
+    vertical-align: middle;
+    height: 55px;
+}
+
+.SpanLabel {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    vertical-align: top;
+    height: 30px;
+    display: flex;
+    color: gainsboro;
+}
+
+a:hover { color: rgb(145, 240, 249); font-weight: 600; }
+a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
+
+.TableThinWindow { border-spacing: 0; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 850px; }
+.TableThinWindowCell { height: 60px; }
+.TableThinWindowCellSeparator { height: 10px; }
+.TableThinWindowCellDown { background: black; height: 60px; }
+
+/* was 700px */
+.TableManifestoText {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 850px;
+    height: 910px;   /* +210px = +3 lines */
+}
+
+.TableManifestoMarqueeCell {
+    color: rgb(145, 240, 249);
+    height: 100px;
+    font-size: 50px;
+    width: 588px;
+    line-height: 70px;
+}
+
+/* OVERLAY WRAP + CLICK TARGET */
+.PlayWrap { position: relative; }
+#PlayPauseOverlay {
+    position: absolute;
+    inset: 0;               /* full coverage */
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    z-index: 3;
+    /* optional: show a very faint hit-area when debugging */
+    /* outline: 1px dashed rgba(145,240,249,0.15); */
+}
+
+/* was height: 700px; plus padding-bottom: 60px later */
+.ManifestoMarqueeText {
+    height: 910px;     /* +210px = +3 lines */
+    padding-bottom: 0; /* ensure the extra height actually shows text */
+    box-sizing: border-box;
+}
+
+.TableManifestoTextCell { padding-top: 30px; vertical-align: top; width: 121px; }
+.TableZoomCell { vertical-align: top; }
+.TableManifestoEmptyTextCell { width: 10px; }
+
+.TableSymbolA {
+    padding: 20px;
+    width: 70px;
+    height: 240px;
+    background: rgb(145, 240, 249);
+    border-radius: 10px;
+}
+.TableSymbolB {
+    border-spacing: 0;
+    padding-top: 20px; padding-left: 20px; padding-bottom: 0; padding-right: 0;
+    width: 59px; height: 199px;
+    background: rgb(145, 240, 249);
+    border-radius: 10px;
+}
+.TableSymbolCell { background: black; }
+
+.DivManifestoOffset { margin-left: auto; margin-right: auto; width: 850px; height: 0x; }
+.DivSetupSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 50px; }
+.DivManifestoSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 30px; }
+
+.TableSetup { border-spacing: 0; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 850px; }
+
+input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; background-color: whitesmoke; }
+
+#bars, #barsDown { position: relative; bottom: -34px; }
+.bar, .barDown {
+    bottom: 0; height: 0; position: absolute; width: 15px;
+    animation: sound 500ms infinite alternate;
+}
+.bar { background: rgb(145, 240, 249); }
+.barDown { background: black; }
+
+@keyframes sound { 0% { height: 0; } 100% { height: 65px; } }
+
+/* barDown placements */
+.barDown:nth-child(1) { left: 0px; animation-duration: 250ms; }
+.barDown:nth-child(2) { left: 19px; animation-duration: 330ms; }
+.barDown:nth-child(3) { left: 38px; animation-duration: 121ms; }
+.barDown:nth-child(4) { left: 57px; animation-duration: 200ms; }
+.barDown:nth-child(5) { left: 76px; animation-duration: 400ms; }
+.barDown:nth-child(6) { left: 95px; animation-duration: 190ms; }
+.barDown:nth-child(7) { left: 114px; animation-duration: 210ms; }
+.barDown:nth-child(8) { left: 133px; animation-duration: 289ms; }
+.barDown:nth-child(9) { left: 152px; animation-duration: 330ms; }
+.barDown:nth-child(10){ left: 171px; animation-duration: 150ms; }
+.barDown:nth-child(11){ left: 190px; animation-duration: 174ms; }
+.barDown:nth-child(12){ left: 209px; animation-duration: 220ms; }
+.barDown:nth-child(13){ left: 228px; animation-duration: 245ms; }
+.barDown:nth-child(14){ left: 247px; animation-duration: 258ms; }
+.barDown:nth-child(15){ left: 266px; animation-duration: 100ms; }
+.barDown:nth-child(16){ left: 285px; animation-duration: 227ms; }
+.barDown:nth-child(17){ left: 304px; animation-duration: 315ms; }
+.barDown:nth-child(18){ left: 323px; animation-duration: 419ms; }
+.barDown:nth-child(19){ left: 342px; animation-duration: 280ms; }
+.barDown:nth-child(20){ left: 361px; animation-duration: 345ms; }
+.barDown:nth-child(21){ left: 380px; animation-duration: 487ms; }
+.barDown:nth-child(22){ left: 399px; animation-duration: 342ms; }
+.barDown:nth-child(23){ left: 418px; animation-duration: 256ms; }
+.barDown:nth-child(24){ left: 437px; animation-duration: 287ms; }
+.barDown:nth-child(25){ left: 456px; animation-duration: 315ms; }
+.barDown:nth-child(26){ left: 475px; animation-duration: 223ms; }
+.barDown:nth-child(27){ left: 494px; animation-duration: 112ms; }
+.barDown:nth-child(28){ left: 513px; animation-duration: 456ms; }
+.barDown:nth-child(29){ left: 532px; animation-duration: 122ms; }
+.barDown:nth-child(30){ left: 551px; animation-duration: 217ms; }
+.barDown:nth-child(31){ left: 570px; animation-duration: 322ms; }
+.barDown:nth-child(32){ left: 589px; animation-duration: 225ms; }
+.barDown:nth-child(33){ left: 608px; animation-duration: 142ms; }
+.barDown:nth-child(34){ left: 627px; animation-duration: 268ms; }
+.barDown:nth-child(35){ left: 646px; animation-duration: 319ms; }
+.barDown:nth-child(36){ left: 665px; animation-duration: 287ms; }
+.barDown:nth-child(37){ left: 684px; animation-duration: 133ms; }
+.barDown:nth-child(38){ left: 703px; animation-duration: 145ms; }
+.barDown:nth-child(39){ left: 722px; animation-duration: 320ms; }
+.barDown:nth-child(40){ left: 741px; animation-duration: 342ms; }
+.barDown:nth-child(41){ left: 760px; animation-duration: 435ms; }
+.barDown:nth-child(42){ left: 779px; animation-duration: 269ms; }
+.barDown:nth-child(43){ left: 798px; animation-duration: 319ms; }
+.barDown:nth-child(44){ left: 817px; animation-duration: 217ms; }
+.barDown:nth-child(45){ left: 836px; animation-duration: 260ms; }
+
+/* bar placements */
+.bar:nth-child(1) { left: 0px;   animation-duration: 330ms; }
+.bar:nth-child(2) { left: 19px;  animation-duration: 240ms; }
+.bar:nth-child(3) { left: 38px;  animation-duration: 231ms; }
+.bar:nth-child(4) { left: 57px;  animation-duration: 158ms; }
+.bar:nth-child(5) { left: 76px;  animation-duration: 214ms; }
+.bar:nth-child(6) { left: 95px;  animation-duration: 327ms; }
+.bar:nth-child(7) { left: 114px; animation-duration: 341ms; }
+.bar:nth-child(8) { left: 133px; animation-duration: 419ms; }
+.bar:nth-child(9) { left: 152px; animation-duration: 487ms; }
+.bar:nth-child(10){ left: 171px; animation-duration: 242ms; }
+.bar:nth-child(11){ left: 190px; animation-duration: 174ms; }
+.bar:nth-child(12){ left: 209px; animation-duration: 320ms; }
+.bar:nth-child(13){ left: 228px; animation-duration: 207ms; }
+.bar:nth-child(14){ left: 247px; animation-duration: 458ms; }
+.bar:nth-child(15){ left: 266px; animation-duration: 200ms; }
+.bar:nth-child(16){ left: 285px; animation-duration: 227ms; }
+.bar:nth-child(17){ left: 304px; animation-duration: 141ms; }
+.bar:nth-child(18){ left: 323px; animation-duration: 319ms; }
+.bar:nth-child(19){ left: 342px; animation-duration: 180ms; }
+.bar:nth-child(20){ left: 361px; animation-duration: 242ms; }
+.bar:nth-child(21){ left: 380px; animation-duration: 187ms; }
+.bar:nth-child(22){ left: 399px; animation-duration: 242ms; }
+.bar:nth-child(23){ left: 418px; animation-duration: 462ms; }
+.bar:nth-child(24){ left: 437px; animation-duration: 267ms; }
+.bar:nth-child(25){ left: 456px; animation-duration: 342ms; }
+.bar:nth-child(26){ left: 475px; animation-duration: 223ms; }
+.bar:nth-child(27){ left: 494px; animation-duration: 242ms; }
+.bar:nth-child(28){ left: 513px; animation-duration: 133ms; }
+.bar:nth-child(29){ left: 532px; animation-duration: 422ms; }
+.bar:nth-child(30){ left: 551px; animation-duration: 237ms; }
+.bar:nth-child(31){ left: 570px; animation-duration: 132ms; }
+.bar:nth-child(32){ left: 589px; animation-duration: 215ms; }
+.bar:nth-child(33){ left: 608px; animation-duration: 342ms; }
+.bar:nth-child(34){ left: 627px; animation-duration: 168ms; }
+.bar:nth-child(35){ left: 646px; animation-duration: 219ms; }
+.bar:nth-child(36){ left: 665px; animation-duration: 327ms; }
+.bar:nth-child(37){ left: 684px; animation-duration: 423ms; }
+.bar:nth-child(38){ left: 703px; animation-duration: 222ms; }
+.bar:nth-child(39){ left: 722px; animation-duration: 300ms; }
+.bar:nth-child(40){ left: 741px; animation-duration: 212ms; }
+.bar:nth-child(41){ left: 760px; animation-duration: 135ms; }
+.bar:nth-child(42){ left: 779px; animation-duration: 215ms; }
+.bar:nth-child(43){ left: 798px; animation-duration: 319ms; }
+.bar:nth-child(44){ left: 817px; animation-duration: 237ms; }
+.bar:nth-child(45){ left: 836px; animation-duration: 150ms; }
+
+.cursor{
+  display:inline-block;
+  width:0.6ch;
+  height:1em;
+  background: currentColor;
+  vertical-align:-0.1em;
+  animation: blink 1.4s steps(1,end) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Typing window breathing room */
+.ManifestoMarqueeText { padding-bottom: 60px; box-sizing: border-box; }
+
+/* Typewriter lines */
+.twline { display:block; overflow-wrap:anywhere; word-break:normal; }
+
+/* Tighten only problem ranges to avoid overrun */
+.line-14, .line-15, .line-16, .line-17, .line-18, .line-19, .line-20,
+.line-25, .line-26, .line-27, .line-28, .line-29, .line-30, .line-31,
+.line-36, .line-37, .line-38, .line-39, .line-40, .line-41, .line-42,
+.line-43, .line-44, .line-45, .line-46, .line-47, .line-48, .line-49,
+.line-50, .line-51, .line-52, .line-53, .line-54, .line-55, .line-56,
+.line-57, .line-58, .line-59, .line-60, .line-61, .line-62, .line-63,
+.line-64, .line-65, .line-66, .line-67 {
+  font-size: 0.96em;
+  letter-spacing: 0.01em;
+  word-spacing: 0.04em;
+  line-height: 1.36;
+}

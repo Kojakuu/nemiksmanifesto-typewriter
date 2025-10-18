@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Nemik's Manifesto by the.rebel.agent — Typewriter v6.5</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <script src="scripts.js" defer></script>
+</head>
+<body id="body" onload="setup();">
+  <div class="DivManifestoOffset" id="DivManifestoOffset"></div>
+
+  <!-- ORIGINAL TOP WINDOW -->
+  <table id="TableThinWindow" class="TableThinWindow">
+    <tr><td class="TableThinWindowCell"><div id="bars" class="bars"></div></td></tr>
+    <tr><td class="TableThinWindowCellSeparator"></td></tr>
+    <tr><td id="TableThinWindowCellDown" class="TableThinWindowCellDown"><div id="barsDown" class="barsDown"></div></td></tr>
+  </table>
+
+  <div class="DivManifestoSeparator"></div>
+
+  <!-- MAIN LAYOUT -->
+  <table class="TableManifestoText">
+    <tr>
+      <td class="TableManifestoMarqueeCell">
+        <!-- Wrapper makes it easy to absolutely-position the overlay on top -->
+        <div class="PlayWrap" id="PlayWrap">
+          <!-- Keep marquee for sizing; JS disables its auto-scroll -->
+          <marquee id="ManifestoMarqueeText" class="ManifestoMarqueeText" direction="up" scrollamount="0">
+            <div id="TypewriterOut"></div>
+          </marquee>
+
+          <!-- Transparent click target covering the whole trapezoid window -->
+          <button id="PlayPauseOverlay" aria-label="Play/Pause"></button>
+        </div>
+
+        <!-- Hidden source content (unchanged) -->
+        <div id="ManifestoSource" style="display:none">
+          <p>There will<br> be times<br> when the<br> struggle<br> seems<br> impossible.<br> I know this<br> already.<br> Alone,<br> unsure,<br> dwarfed by<br> the scale of<br> the enemy.</p>
+          <p>Remember<br> this. Freedom<br> is a pure<br> idea. It<br> occurs<br> spontaneously<br> and without<br> instruction.<br> Random acts<br> of insurrection<br> are occurring<br> constantly<br> throughout<br> the galaxy.<br> There are<br> whole armies,<br> battalions<br> that have no<br> idea that<br> they've<br> already<br> enlisted<br> in the cause.</p>
+          <p>Remember that<br> the frontier<br> of the<br> Rebellion<br> is everywhere.<br> And even the<br> smallest<br> act of<br> insurrection<br> pushes our<br> lines forward.</p>
+          <p>And then<br> remember this.<br> The Imperial<br> need for<br> control is<br> so desperate<br> because it<br> is so<br> unnatural.<br> Tyranny<br> requires<br> constant<br> effort.<br> It breaks,<br> it leaks.<br> Authority is<br> brittle.<br> Oppression<br> is the mask<br> of fear.</p>
+          <p>Remember that.<br> And know this,<br> the day will<br> come when<br> all these<br> skirmishes<br> and battles,<br> these moments<br> of defiance<br> will have<br> flooded the<br> banks of the<br> Empire's<br> authority and<br> then there<br> will be one<br> too many.<br> One single<br> thing will<br> break the<br> siege.</p>
+          <p>Remember this.<br> Try.</p>
+        </div>
+      </td>
+      <td class="TableManifestoTextCell">
+        <table id="TableSymbolA" class="TableSymbolA" onclick="reset();"><tr><td class="TableSymbolCell"></td></tr></table>
+      </td>
+      <td class="TableManifestoTextCell">
+        <table id="TableSymbolB" class="TableSymbolB"><tr><td class="TableSymbolCell"></td></tr></table>
+      </td>
+      <td class="TableManifestoEmptyTextCell">&nbsp;</td>
+    </tr>
+  </table>
+
+  <div class="DivManifestoSeparator"></div><div class="DivManifestoSeparator"></div><div class="DivManifestoSeparator"></div>
+
+  <table class="TableSetup">
+    <tr>
+      <td><a href="setup.html">Setup</a><span class="SpanLabel">Setup</span>&nbsp;&nbsp;</td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <td class="TableZoomCell">
+        <a href="#" target="_self" onclick="zoomIn();">-</a>
+        <span id="zoom">&nbsp;</span>
+        <a href="#" target="_self" onclick="zoomOut();">+</a>
+      </td>
+    </tr>
+  </table>
+
+  <!-- AUDIO (remote URLs set by scripts.js) -->
+  <audio preload="none" id="NemiksManifestoAudio" onended="onAudioEnded();">
+    <source id="NemiksManifestoAudioSource" src="" type="audio/mpeg"></source>
+  </audio>
+</body>
+</html>

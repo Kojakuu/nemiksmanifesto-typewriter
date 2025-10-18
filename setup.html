@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Setup — Nemik's Manifesto</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <script src="scripts.js" defer></script>
+  <style>
+    body { font-family: system-ui, sans-serif; color: gainsboro; background:#000; }
+    .wrap { max-width: 850px; margin: 40px auto; }
+    input, select, button { font-size: 24px; padding: 6px 10px; }
+    a { color: rgb(145, 240, 249); }
+    button { background: transparent; border: 1px solid rgb(145,240,249); border-radius: 8px; color: rgb(145,240,249); }
+  </style>
+</head>
+<body onload="loadSetup();">
+  <div class="wrap">
+    <h2>Setup</h2>
+    <h3>Vertical Offset</h3>
+    <label for="offset">Offset (px):</label>
+    <input id="offset" type="number" step="1" value="100">
+    <div style="margin-top:8px;">
+      <button onclick="saveOffset()">Save Offset</button>
+      <button onclick="resetOffset()">Reset Offset</button>
+    </div>
+
+    <h3 style="margin-top:20px;">Audio Language</h3>
+    <label for="audioLanguage">Language:</label>
+    <select id="audioLanguage" onchange="saveAudioLanguage()">
+      <option value="0">English</option>
+      <option value="1">Spanish</option>
+    </select>
+
+    <div style="margin-top:16px;">
+      <a href="index.html">← Back</a>
+    </div>
+  </div>
+</body>
+</html>
