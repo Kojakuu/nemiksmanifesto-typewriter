@@ -16,15 +16,15 @@ const zoomMaxValue = 195;
 const zoomMinValue = 5;
 const zoomIncrement = 3;
 
-// === Audio config: prefer local files on GitHub Pages (avoids https/http blocking) ===
-const AudioLanguage = { English: 0, Spanish: 1 };
+const AudioLanguage = {
+    English: 0,
+    Spanish: 1,
+}
 var _audioLanguage = "";
 const audioLanguageDefaultValue = AudioLanguage.English;
+const englishAudioID = "nemiksmanifesto.english.mp3";
+const spanishAudioID = "nemiksmanifesto.spanish.mp3";
 const audioLanguageCookieName = 'audioLanguage';
-
-// Local filenames at repo root (add spanish.mp3 if you want Spanish)
-const englishAudioID = "english.mp3";
-const spanishAudioID = "spanish.mp3"; // optional; only if present
 
 function setup() {
     _initialized = true;
@@ -33,11 +33,19 @@ function setup() {
     createBars('bars', 'bar');
     createBars('barsDown', 'barDown');
     setupTableSymbol('black');
+
+    // Init typewriter
     document.getElementById('ManifestoMarqueeText').style.color = 'black';
     twInit();
+
+    // Audio language + load
     getAudioLanguage();
     setupAudioLanguage();
-    wireOverlayControls();     // << overlay play/pause/restart
+
+    // Wire overlay control
+    const overlay = document.getElementById('PlayPauseOverlay');
+    if (overlay) overlay.addEventListener('click', overlayToggle, {passive:true});
+
     pause();
 }
 
@@ -51,24 +59,18 @@ function createBars(divTagName, innerDivTagName) {
 }
 
 function setupAudioLanguage() {
-    const id = getAudioLanguageID();   // "english.mp3" or "spanish.mp3"
-    const url = id;                    // relative path at repo root
-
-    const nemiksManifestoAudioSource = document.getElementById('NemiksManifestoAudioSource');
+    let url = "http://www.theforce.com.ar/Scripts/nemiksmanifesto/" + getAudioLanguageID();
+    nemiksManifestoAudioSource = document.getElementById('NemiksManifestoAudioSource');
     nemiksManifestoAudioSource.src = url;
-
-    const nemiksManifestoAudio = document.getElementById('NemiksManifestoAudio');
-    nemiksManifestoAudio.preload = 'auto';
+    nemiksManifestoAudio = document.getElementById('NemiksManifestoAudio');
     nemiksManifestoAudio.load();
-
-    // When audio ends, mark playback stopped (overlay will restart from top on next tap)
-    nemiksManifestoAudio.onended = onAudioEnded;
 }
 
 function getAudioLanguageID() {
-    if (_audioLanguage == AudioLanguage.English) return englishAudioID;
-    if (_audioLanguage == AudioLanguage.Spanish) return spanishAudioID;
-    return englishAudioID;
+    let audioLanguageID;
+    if (_audioLanguage == AudioLanguage.English)      audioLanguageID = englishAudioID;
+    else if (_audioLanguage == AudioLanguage.Spanish) audioLanguageID = spanishAudioID;
+    return audioLanguageID;
 }
 
 function pause() {
@@ -91,6 +93,42 @@ function setupDivManifestoOffset() {
 
 function startStop() { if (!_running) { start(); } else { pause(); } }
 
+// Overlay-driven start/stop + restart-when-ended
+function overlayToggle(){
+    const a = document.getElementById('NemiksManifestoAudio');
+    const isEnded = a && a.duration && isFinite(a.duration) && (a.currentTime >= a.duration - 0.05);
+    if (isEnded) {
+        restartFromBeginning();
+        return;
+    }
+    // If currently playing, pause; otherwise start.
+    if (_running) pause(); else start();
+}
+
+function restartFromBeginning(){
+    // Stop everything and reset state
+    twStop();
+    stopScroll();
+    const a = document.getElementById('NemiksManifestoAudio');
+    if (a) { a.pause(); a.currentTime = 0; }
+    _initialized = true;    // so we get the slight delayed animation kick like first run
+    _running = false;
+
+    // Reinit typewriter + scroll position
+    twInit();
+    const marquee = document.getElementById('ManifestoMarqueeText');
+    if (marquee) { marquee.scrollTop = 0; }
+
+    // Start fresh
+    start();
+}
+
+function onAudioEnded(){
+    // Make sure UI returns to paused visuals when audio finishes naturally
+    stopAnimation();
+}
+
+/* ===== START / STOP VISUALS ===== */
 function start() {
     let color = 'rgb(145, 240, 249)';
     let manifestoMarqueeText = document.getElementById('ManifestoMarqueeText');
@@ -124,6 +162,7 @@ function stopAnimation() {
 
 function reset() { if (!_running) window.location.reload(); }
 
+/* ===== ZOOM, COOKIES, SETUP (unchanged) ===== */
 function setupZoom() {
     _zoomValue = getZoom();
     if (_zoomValue > zoomMaxValue) _zoomValue = zoomMaxValue;
@@ -168,10 +207,10 @@ function setCookie(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-/* ===================== Typewriter w/ dynamic first-half scroll ===================== */
+/* ===================== Typewriter + Dynamic Scroll ===================== */
 
 /* Your tuned typing pace */
-const TW_BASE_SPEED = 73.75;   // ms / char
+const TW_BASE_SPEED = 73.6;   // ms / char
 
 /* Back-pressure skip list (lines that should never stall waiting for scroll) */
 const SKIP_BACKPRESSURE_LINES = new Set([12, 13, 17, 22, 27, 28]);
@@ -195,7 +234,6 @@ let scrollTimer = null;
 function getPlaybackProgress() {
   const a = document.getElementById('NemiksManifestoAudio');
   if (!a || !a.duration || !isFinite(a.duration) || a.duration <= 0) {
-    // fallback to line-based progress if audio not ready
     const total = Math.max(1, twParas.length);
     return Math.min(1, twLineIdx / total);
   }
@@ -204,7 +242,6 @@ function getPlaybackProgress() {
 
 function desiredScrollStep(){
   const p = getPlaybackProgress();
-  // “first half” is a bit generous (55%) to keep you ahead early
   return (p < 0.55) ? SCROLL_STEP_FAST : SCROLL_STEP_SLOW;
 }
 
@@ -279,7 +316,7 @@ function twOverflowPixels(){
 
 /* --- main tick --- */
 function twTick(){
-  // keep max visible lines synced
+  // keep max lines synced
   const m = document.getElementById('ManifestoMarqueeText');
   const lh = parseFloat(getComputedStyle(m).lineHeight || '70');
   const newMax = Math.max(1, Math.floor((m.clientHeight || 700) / lh)) + 2;
@@ -287,8 +324,7 @@ function twTick(){
 
   const currentLineNo = twLineIdx + 1;
 
-  // In FIRST HALF: do not apply back-pressure at all (go fast)
-  // In SECOND HALF: apply gentle back-pressure to avoid overruns
+  // First half: no back-pressure; second half: gentle back-pressure
   const inFirstHalf = (getPlaybackProgress() < 0.55);
   if (!inFirstHalf && !SKIP_BACKPRESSURE_LINES.has(currentLineNo)) {
     if (twVisibleLines.length >= twMaxLines) {
@@ -316,33 +352,3 @@ function twTick(){
 
 function twStart(){ if (twNext) clearTimeout(twNext); twScheduleNext(TW_BASE_SPEED); }
 function twStop(){ if (twNext){ clearTimeout(twNext); twNext = null; } }
-
-/* ===================== Overlay controls & end handling ===================== */
-
-function wireOverlayControls(){
-  const overlay = document.getElementById('PlayPauseOverlay');
-  if (!overlay) return;
-  overlay.onclick = function () {
-    const a = document.getElementById('NemiksManifestoAudio');
-    if (a.ended) {
-      restartFromBeginning();
-    } else {
-      startStop(); // toggle play/pause
-    }
-  };
-}
-
-function onAudioEnded(){
-  // Audio finished; mark stopped so next overlay tap restarts from top
-  twStop();
-  stopScroll();
-  _running = false;
-}
-
-function restartFromBeginning(){
-  // Reset TW + scroll + audio and start fresh
-  twInit();
-  const a = document.getElementById('NemiksManifestoAudio');
-  a.currentTime = 0;
-  start(); // this calls twStart(), startScroll(), plays audio, shows bars
-}

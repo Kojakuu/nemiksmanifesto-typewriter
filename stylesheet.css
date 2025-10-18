@@ -87,10 +87,20 @@ a:visited {
     line-height: 70px;
 }
 
-/* was height: 700px; plus padding-bottom: 60px later */
+/* OVERLAY WRAP + CLICK TARGET */
+.PlayWrap { position: relative; }
+#PlayPauseOverlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
 .ManifestoMarqueeText {
     height: 910px;     /* +210px = +3 lines */
-    padding-bottom: 60px; /* breathing room; does not move "Setup" */
+    padding-bottom: 0; /* ensure the extra height actually shows text */
     box-sizing: border-box;
 }
 
@@ -139,20 +149,19 @@ a:visited {
     height: 0x;
 }
 
-/* ↑ Increase the gap between the top animation and the render window by ~1 line (≈70px)
-   This pushes everything below down uniformly. */
-.DivManifestoSeparator {
-    margin-left: auto;
-    margin-right: auto;
-    width: 850px;
-    height: 100px;   /* was 30px — now bigger gap above the trapezoid */
-}
-
 .DivSetupSeparator {
     margin-left: auto;
     margin-right: auto;
     width: 850px;
     height: 50px;
+}
+
+/* ↑↑ increased from 30px to 100px to add ~one line of gap */
+.DivManifestoSeparator {
+    margin-left: auto;
+    margin-right: auto;
+    width: 850px;
+    height: 100px;   /* was 30px */
 }
 
 .TableSetup {
@@ -313,9 +322,22 @@ option {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Allow earlier breaks for long Aurebesh runs (no hyphenation). */
-.twline {
-  display: block;
-  overflow-wrap: anywhere;
-  word-break: normal;
+/* Typing window breathing room */
+.ManifestoMarqueeText { padding-bottom: 60px; box-sizing: border-box; }
+
+/* Typewriter lines */
+.twline { display:block; overflow-wrap:anywhere; word-break:normal; }
+
+/* Tighten only problem ranges to avoid overrun */
+.line-14, .line-15, .line-16, .line-17, .line-18, .line-19, .line-20,
+.line-25, .line-26, .line-27, .line-28, .line-29, .line-30, .line-31,
+.line-36, .line-37, .line-38, .line-39, .line-40, .line-41, .line-42,
+.line-43, .line-44, .line-45, .line-46, .line-47, .line-48, .line-49,
+.line-50, .line-51, .line-52, .line-53, .line-54, .line-55, .line-56,
+.line-57, .line-58, .line-59, .line-60, .line-61, .line-62, .line-63,
+.line-64, .line-65, .line-66, .line-67 {
+  font-size: 0.96em;
+  letter-spacing: 0.01em;
+  word-spacing: 0.04em;
+  line-height: 1.36;
 }
