@@ -22,8 +22,8 @@ const AudioLanguage = {
 }
 var _audioLanguage = "";
 const audioLanguageDefaultValue = AudioLanguage.English;
-const englishAudioID = "nemiksmanifesto.english.mp3";
-const spanishAudioID = "nemiksmanifesto.spanish.mp3";
+const englishAudioID = "english.mp3";  // local file in the same folder as index.html
+const spanishAudioID = "spanish.mp3";  // optional if you later add it
 const audioLanguageCookieName = 'audioLanguage';
 
 function setup() {
@@ -59,7 +59,8 @@ function createBars(divTagName, innerDivTagName) {
 }
 
 function setupAudioLanguage() {
-    let url = "http://www.theforce.com.ar/Scripts/nemiksmanifesto/" + getAudioLanguageID();
+    let url = getAudioLanguageID();  // load from the same folder as index.html
+
     nemiksManifestoAudioSource = document.getElementById('NemiksManifestoAudioSource');
     nemiksManifestoAudioSource.src = url;
     nemiksManifestoAudio = document.getElementById('NemiksManifestoAudio');
@@ -210,7 +211,7 @@ function setCookie(cname, cvalue, exdays) {
 /* ===================== Typewriter + Dynamic Scroll ===================== */
 
 /* Your tuned typing pace */
-const TW_BASE_SPEED = 73.7;   // ms / char
+const TW_BASE_SPEED = 72.5;   // ms / char
 
 /* Back-pressure skip list (lines that should never stall waiting for scroll) */
 const SKIP_BACKPRESSURE_LINES = new Set([12, 13, 17, 22, 27, 28]);
@@ -228,7 +229,7 @@ let twMaxLines = 12;
 let scrollPos = 0;
 const SCROLL_INTERVAL = 30;      // ms between increments
 const SCROLL_STEP_FAST = 0.60;   // slightly faster first-half scroll
-const SCROLL_STEP_SLOW = 0.32;   // second half scroll
+const SCROLL_STEP_SLOW = 0.33;   // second half scroll
 let scrollTimer = null;
 
 function getPlaybackProgress() {
