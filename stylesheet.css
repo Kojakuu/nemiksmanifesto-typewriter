@@ -36,9 +36,8 @@ a:hover { color: rgb(145, 240, 249); font-weight: 600; }
 a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
 
 .TableThinWindow { border-spacing: 0; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 850px; }
-.TableThinWindowCell { height: 60px; }
-.TableThinWindowCellSeparator { height: 10px; }
-.TableThinWindowCellDown { background: black; height: 60px; }
+.TableThinWindowCell { height: 0px; }
+.TableThinWindowCellSeparator { height: 0px; }
 
 /* was 700px */
 .TableManifestoText {
@@ -101,7 +100,7 @@ a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
 
 .DivManifestoOffset { margin-left: auto; margin-right: auto; width: 850px; height: 0x; }
 .DivSetupSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 115px; }
-.DivManifestoSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 150px; }
+.DivManifestoSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 180px; }
 
 .TableSetup { border-spacing: 0; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 850px; }
 
@@ -113,7 +112,11 @@ input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; ba
     animation: sound 500ms infinite alternate;
 }
 .bar { background: rgb(145, 240, 249); }
-.barDown { background: black; }
+/* CHANGED: make bottom bars cyan to match top */
+.barDown { background: rgb(145, 240, 249); }
+
+/* NEW: mirror bottom bars so they originate from the midline */
+#barsDown { transform: scaleY(-1); transform-origin: top center; }
 
 @keyframes sound { 0% { height: 0; } 100% { height: 65px; } }
 

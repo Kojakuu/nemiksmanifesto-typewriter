@@ -146,18 +146,31 @@ function start() {
 }
 
 function startAnimation() {
-    let color = 'rgb(145, 240, 249)';
-    document.getElementById('TableThinWindowCellDown').style.backgroundColor = color;
+    // CHANGED: keep the mid band black so cyan bars have black dividers
+    document.getElementById('TableThinWindowCellDown').style.backgroundColor = 'black';
+
+    // show top bars
     let bars = document.getElementsByClassName("bars");
     for (let i = 0; i < bars.length; ++i) bars[i].style.display = 'block';
+
+    // NEW: show bottom bars in sync
+    let barsDown = document.getElementsByClassName("barsDown");
+    for (let i = 0; i < barsDown.length; ++i) barsDown[i].style.display = 'block';
 }
 
 function stopAnimation() {
     twStop();
     stopScroll();
     document.getElementById('TableThinWindowCellDown').style.backgroundColor = 'black';
+
+    // hide top bars
     let bars = document.getElementsByClassName("bars");
     for (let i = 0; i < bars.length; ++i) bars[i].style.display = 'none';
+
+    // NEW: hide bottom bars in sync
+    let barsDown = document.getElementsByClassName("barsDown");
+    for (let i = 0; i < barsDown.length; ++i) barsDown[i].style.display = 'none';
+
     _running = false;
 }
 
