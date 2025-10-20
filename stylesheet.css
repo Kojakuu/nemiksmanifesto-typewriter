@@ -100,7 +100,7 @@ a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
 
 .DivManifestoOffset { margin-left: auto; margin-right: auto; width: 850px; height: 0x; }
 .DivSetupSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 115px; }
-.DivManifestoSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 220px; }
+.DivManifestoSeparator { margin-left: auto; margin-right: auto; width: 850px; height: 240px; }
 
 .TableSetup { border-spacing: 0; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 850px; }
 
