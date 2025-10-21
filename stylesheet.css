@@ -73,7 +73,7 @@ a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
 
 /* was height: 700px; plus padding-bottom: 60px later */
 .ManifestoMarqueeText {
-    height: 910px;     /* +210px = +3 lines */
+    height: 900px;     /* +210px = +3 lines */
     padding-bottom: 0; /* ensure the extra height actually shows text */
     box-sizing: border-box;
 }
