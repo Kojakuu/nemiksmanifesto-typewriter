@@ -243,3 +243,19 @@ input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; ba
   word-spacing: 0.04em;
   line-height: 1.36;
 }
+/* === Clip bottom-right corner of the screen === */
+.PlayWrap {
+  position: relative;
+  overflow: hidden;
+
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 70%,
+    62% 100%,
+    0% 100%
+  );
+  -webkit-clip-path: polygon(
+    0% 0%, 100% 0%, 100% 70%, 62% 100%, 0% 100%
+  );
+}
