@@ -252,10 +252,10 @@ input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; ba
     0% 0%,
     100% 0%,
     100% 40%,
-    20% 100%,
+    25% 100%,
     0% 100%
   );
   -webkit-clip-path: polygon(
-    0% 0%, 100% 0%, 100% 40%, 20% 100%, 0% 100%
+    0% 0%, 100% 0%, 100% 40%, 25% 100%, 0% 100%
   );
 }
