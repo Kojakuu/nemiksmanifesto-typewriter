@@ -311,4 +311,8 @@ html:has(#NemiksManifestoAudio:paused) .cursor {
 html:has(#NemiksManifestoAudio:not(:paused)) .cursor {
   visibility: hidden;
 }
-
+/* Ensure the cursor shows & blinks as soon as typing finishes, even if audio keeps playing */
+.state-finished .cursor {
+  visibility: visible !important;
+  animation: blink 1.4s steps(1,end) infinite;
+}
