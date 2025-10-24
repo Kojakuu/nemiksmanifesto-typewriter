@@ -232,7 +232,7 @@ function setCookie(cname, cvalue, exdays) {
 /* ===================== Typewriter + Dynamic Scroll ===================== */
 
 /* Your tuned typing pace */
-const TW_BASE_SPEED = 72;   // ms / char
+const TW_BASE_SPEED = 73;   // ms / char
 
 /* Back-pressure skip list (lines that should never stall waiting for scroll) */
 const SKIP_BACKPRESSURE_LINES = new Set([12, 13, 17, 22, 27, 28]);
