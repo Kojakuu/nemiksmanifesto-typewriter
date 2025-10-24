@@ -5,7 +5,7 @@ Created by Diego J. Arevalo.
 */
 
 :root{
-  --mid-gap: 30px;         /* ← tweak this number to taste */
+  --mid-gap: 20px;         /* ← tweak this number to taste */
   --bar-max: 65px;         /* current max height from keyframes */
 }
 
