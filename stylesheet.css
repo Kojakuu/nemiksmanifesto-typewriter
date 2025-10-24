@@ -4,6 +4,11 @@ Created by Diego J. Arevalo.
 2023 v 1.1
 */
 
+:root{
+  --mid-gap: 30px;         /* ← tweak this number to taste */
+  --bar-max: 65px;         /* current max height from keyframes */
+}
+
 @font-face {
     font-family: 'Aurebesh';
     src: url('AurebeshAF.woff2') format('woff2');
@@ -37,7 +42,7 @@ a:link, a:visited { color: rgb(145, 240, 249); text-decoration: none; }
 
 .TableThinWindow { border-spacing: 0; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 850px; }
 .TableThinWindowCell { height: 0px; }
-.TableThinWindowCellSeparator { height: 0px; }
+.TableThinWindowCellSeparator { height: var(--mid-gap); }
 
 /* was 700px */
 .TableManifestoText {
@@ -119,7 +124,9 @@ input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; ba
 /* NEW: mirror bottom bars so they originate from the midline */
 #barsDown { transform: scaleY(-1); transform-origin: top center; }
 
-@keyframes sound { 0% { height: 0; } 100% { height: 65px; } }
+@keyframes sound {
+  0%   { height: 0; }
+  100% { height: calc(var(--bar-max) - (var(--mid-gap) / 2)); }}
 
 /* barDown placements */
 .barDown:nth-child(1) { left: 0px; animation-duration: 250ms; }
@@ -215,6 +222,7 @@ input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; ba
 .bar:nth-child(44){ left: 817px; animation-duration: 237ms; }
 .bar:nth-child(45){ left: 836px; animation-duration: 150ms; }
 
+/* Cursor base (blinking block) */
 .cursor{
   display:inline-block;
   width:0.6ch;
@@ -260,3 +268,47 @@ input, select, option { font-size: 40px; font-family: Aurebesh; width: 250px; ba
     0% 0%, 100% 0%, 100% 54%, 36% 100%, 0% 100%
   );
 }
+
+/* Letter wipe-in effect (per-character) */
+@keyframes wipeMask {
+  from { -webkit-mask-position: 120% 0; mask-position: 120% 0; }
+  to   { -webkit-mask-position: 0 0;    mask-position: 0 0; }
+}
+
+/* This span wraps only the newest character */
+.wipe {
+  display: inline-block;
+
+  /* A soft-edged reveal from left → right */
+  -webkit-mask-image: linear-gradient(90deg, #000 70%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(90deg, #000 70%, rgba(0,0,0,0) 100%);
+
+  -webkit-mask-size: 200% 100%;
+  mask-size: 200% 100%;
+
+  -webkit-mask-position: 120% 0;
+  mask-position: 120% 0;
+
+  animation: wipeMask 160ms ease-out forwards;
+}
+
+/* ===== Cursor visibility states ===== */
+/* Hidden while typing */
+.cursor { visibility: hidden; }
+/* Visible when paused or after finishing */
+.state-paused .cursor,
+.state-finished .cursor { visibility: visible; }
+/* Optional: stop blinking on finished */
+/* .state-finished .cursor { animation: none; } */
+
+/* ---- Cursor toggle tied directly to the audio element ---- */
+/* Show the cursor when the audio is paused (either manually paused or ended) */
+html:has(#NemiksManifestoAudio:paused) .cursor {
+  visibility: visible;
+}
+
+/* Hide the cursor while the audio is playing */
+html:has(#NemiksManifestoAudio:not(:paused)) .cursor {
+  visibility: hidden;
+}
+

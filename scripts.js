@@ -127,6 +127,8 @@ function restartFromBeginning(){
 function onAudioEnded(){
     // Make sure UI returns to paused visuals when audio finishes naturally
     stopAnimation();
+    // NEW: mark finished so the cursor appears at the end
+    setUIState('finished');
 }
 
 /* ===== START / STOP VISUALS ===== */
@@ -143,6 +145,9 @@ function start() {
     setupTableSymbol(color);
     _running = true;
     _initialized = false;
+
+    // NEW: typing state (cursor hidden)
+    setUIState('typing');
 }
 
 function startAnimation() {
@@ -172,6 +177,9 @@ function stopAnimation() {
     for (let i = 0; i < barsDown.length; ++i) barsDown[i].style.display = 'none';
 
     _running = false;
+
+    // NEW: paused state (cursor visible)
+    setUIState('paused');
 }
 
 function reset() { if (!_running) window.location.reload(); }
@@ -224,7 +232,7 @@ function setCookie(cname, cvalue, exdays) {
 /* ===================== Typewriter + Dynamic Scroll ===================== */
 
 /* Your tuned typing pace */
-const TW_BASE_SPEED = 84;   // ms / char
+const TW_BASE_SPEED = 73;   // ms / char
 
 /* Back-pressure skip list (lines that should never stall waiting for scroll) */
 const SKIP_BACKPRESSURE_LINES = new Set([12, 13, 17, 22, 27, 28]);
@@ -301,12 +309,27 @@ function twInit(){
 function twRender(){
   const out = document.getElementById('TypewriterOut');
   if (!out) return;
+
   const n = twVisibleLines.length;
-  out.innerHTML = twVisibleLines.map((ln,i)=>{
-    const isLast = (i === n-1);
-    const cursor = isLast ? '<span class="cursor"></span>' : '';
+
+  function withWipeOnLastChar(s){
+    if (!s || s.length === 0) return s;
+    const head = s.slice(0, -1);
+    const last = s.slice(-1);
+    return head + '<span class="wipe">' + last + '</span>';
+  }
+
+  out.innerHTML = twVisibleLines.map((ln, i) => {
+    const isLast = (i === n - 1);
     const abs = twLineNums[i] || 0;
-    return `<div class="twline line-${abs}" data-line="${abs}">${ln}${cursor}</div>`;
+
+    // Only the newest character of the last line gets the wipe
+    const rendered = isLast ? withWipeOnLastChar(ln) : ln;
+
+    // Cursor stays in markup; visibility controlled by CSS state class
+    const cursor = isLast ? '<span class="cursor"></span>' : '';
+
+    return `<div class="twline line-${abs}" data-line="${abs}">${rendered}${cursor}</div>`;
   }).join('');
 }
 
@@ -328,6 +351,13 @@ function twOverflowPixels(){
   return (lastBottom - (viewBottom - SAFE));
 }
 
+/* NEW: simple UI state helper for cursor visibility */
+function setUIState(state){  // 'typing' | 'paused' | 'finished'
+  const b = document.body;
+  b.classList.remove('state-typing', 'state-paused', 'state-finished');
+  b.classList.add('state-' + state);
+}
+
 /* --- main tick --- */
 function twTick(){
   // keep max lines synced
@@ -347,7 +377,12 @@ function twTick(){
     }
   }
 
-  if (twLineIdx >= twParas.length){ twStop(); return; }
+  if (twLineIdx >= twParas.length){
+    twStop();
+    // NEW: typing finished (cursor visible)
+    setUIState('finished');
+    return;
+  }
 
   const line = twParas[twLineIdx];
 
